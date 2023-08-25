@@ -1,12 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:task2/ui/widgets/product_widget.dart';
 import '../../data/product.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-import 'counter_page.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key});
@@ -18,57 +16,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
 
-
   List<Product> products = [
     Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
+        title: "e. I can't express how happy i am with the fantastic service. I'm going to be using them a lot!",
+        thumbnail: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ9fINW8tf9DipRZXNoL6mmUQ9ZDkGOkJr0d1UwUMUQgyDmShHJ'
     ),
     Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
+        title: "e. I can't express how happy i am with the fantastic service. I'm going to be using them a lot!",
+        thumbnail: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSx1WvygeOSjhvJ2mS-CcP4Bc16M8YiCVbxsrhIA9gKCiEZ8cT6'
     ),
     Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
-    ),
-    Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
-    ),
-    Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
-    ),
-    Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
-    ),
-    Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
-    ),
-    Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
-    ),
-    Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
-    ),
-    Product(
-        price: 499.90,
-        title: 'Noise ColorFit Pro 2 Full Touch Control Smart Watch',
-        thumbnail: 'https://svegifts.com/wp-content/uploads/2022/08/Artboard1copy2_fbcf911b-d9d1-4d6a-a260-89e2c06439c0.png'
+        title: "e. I can't express how happy i am with the fantastic service. I'm going to be using them a lot!",
+        thumbnail: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT-ngemPzUJ7WqmvA_I9uiAVOQ0UAiFC3mCaST34RpZBKlNWxno'
     ),
   ];
 
@@ -76,28 +35,41 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('New Products',
-              style: TextStyle(fontSize: 27)),
-            Text('See All',
-            style: TextStyle(fontSize: 20, color: Colors.white60),)
-          ],
-        ),
-      ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(3),
-        child: GridView.builder(
-          itemCount: products.length,
-          itemBuilder: (BuildContext, int index){
-            return ProductItem(product: products[index]);
-          },
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      backgroundColor: Colors.white,
+      body:
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 5),
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Welcome to \n'
+                        'EGYDYNAMIC..',
+                      style: TextStyle(fontSize: 27, color: Colors.black),),
+                    Container(
+                      width: 80,
+                      height: 80,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(image: NetworkImage('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS6TxLc1EQfa5P6sIEbZ-dTVVrCgXHDBmeR0JsHYFCi7pw7aftV'))
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 30,),
+                GridView.builder(
+                  itemCount: products.length,
+                  itemBuilder: (BuildContext, int index){
+                    return ProductItem(product: products[index]);
+                  },
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
+                ),
+              ],
+            ),
+          ),
         ),
       )
 

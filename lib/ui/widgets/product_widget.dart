@@ -8,58 +8,36 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-       Stack(
-         children: [
-           Container(
-             height: 100,
-             width: 170,
-             decoration: BoxDecoration(
-                 color: Colors.white,
-                 borderRadius: BorderRadius.circular(10),
-                 image: DecorationImage(
-                     image: NetworkImage(product.thumbnail),
-                     fit: BoxFit.contain
-                 )
-             ),
-             margin: EdgeInsets.symmetric(vertical: 7),
-           ),
-           Positioned(
-             top: 13,
-             right: 10,
-             child: Container(
-             height: 30,
-             width: 30,
-             decoration: BoxDecoration(
-             image: DecorationImage(
-               image: AssetImage('assets/images/image2.png')
-             ),
-             )
-
-             ),
-           )
-         ],
-       ),
-         Container(
-           height: 50,
-           width: 170,
-           child: Text(product.title,
-            style: TextStyle(color: Colors.black54, fontSize: 15),
-            softWrap: true),
-         ),
-
         Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.attach_money_outlined, size: 20),
-              Text(product.price.toString(),
-                style: TextStyle(fontSize: 15, color: Colors.black),
-              )
-            ],
+          height: 220,
+          width: double.infinity,
+          margin: EdgeInsets.symmetric(horizontal: 35,),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade400,
+            borderRadius: BorderRadius.circular(30)
           ),
         ),
+        Container(
+          height: 150,
+          width: double.infinity,
+          margin: EdgeInsets.symmetric(horizontal: 35,),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.vertical(bottom: Radius.zero, top: Radius.circular(30)),
+            image: DecorationImage(image: NetworkImage(product.thumbnail),
+            fit: BoxFit.fill),
+          ),
+        ),
+        Positioned(
+          top: 160,
+          left: 70,
+          child: SizedBox(
+              height: 55,
+              width: 250,
+              child: Text(product.title, style:
+                TextStyle(fontSize: 15),)),
+        )
       ],
     );
   }

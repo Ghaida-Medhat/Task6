@@ -1,6 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task2/cubit/my_app_cubit.dart';
+import 'package:task2/cubit/my_app_state.dart';
 
 import '../../layout.dart';
 class SignUp extends StatefulWidget {
@@ -15,104 +20,37 @@ class _SignUpState extends State<SignUp> {
   TextEditingController passwordC = TextEditingController();
   TextEditingController phoneC = TextEditingController();
   TextEditingController nameC = TextEditingController();
+  TextEditingController confirmC = TextEditingController();
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  Future<void> signup({
-    required String email,
-    required String password,
-    required String phone,
-    required String name,
-  }) async {
-    if (formKey.currentState!.validate()) {
-      try {
-        await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        )
-            .then((value) {
-          if (value.user != null) {
-            saveUserData(
-              email: email,
-              password: password,
-              name: name,
-              phone: phone,
-              uid: value.user!.uid,
-            ).then((value) {
-              if (value) {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) {
-                      return const HomeLayout();
-                    }));
-              }
-            });
-          }
-        });
-      } catch (e) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.toString())));
-      }
-    }
-  }
 
-  Future<bool> saveUserData({
-    required String email,
-    required String password,
-    required String phone,
-    required String name,
-    required String uid,
-  }) async {
-    try {
-      FirebaseFirestore.instance.collection('users').doc(uid).set({
-        'email': email,
-        'password': password,
-        'phone': phone,
-        'name': name,
-        'uid': uid,
-      }, SetOptions(merge: true));
-      return true;
-    } catch (error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.toString())));
-      return false;
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Center(child: const Text('Sign Up',
-          style: TextStyle(fontSize: 30),
-        )),
-      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Form(
           key: formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Email',
-              style: TextStyle(fontSize: 20)),
-              TextFormField(
-                controller: emailC,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'The email cannot be empty';
-                  }
-                },
-              ),
+              Text('Welcome back! Glad to see you again!',
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
               const SizedBox(
-                height: 10,
+                height: 50,
               ),
-              const Text('Name',
-              style: TextStyle(fontSize: 20)),
               TextFormField(
                 controller: nameC,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    hintText: ('Username'),
+                    filled: true,
+                    fillColor: Colors.grey.shade200
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'The name cannot be empty';
@@ -122,10 +60,31 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 10,
               ),
-              const Text('Phone',
-              style: TextStyle(fontSize: 20)),
+              TextFormField(
+                controller: emailC,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    hintText: ('Email'),
+                    filled: true,
+                    fillColor: Colors.grey.shade200
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'The email cannot be empty';
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               TextFormField(
                 controller: phoneC,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    hintText: ('Phone'),
+                    filled: true,
+                    fillColor: Colors.grey.shade200
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'The phone cannot be empty';
@@ -137,10 +96,14 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 10,
               ),
-              const Text('Password',
-              style: TextStyle(fontSize: 20)),
               TextFormField(
                 controller: passwordC,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    hintText: ('Password'),
+                    filled: true,
+                    fillColor: Colors.grey.shade200
+                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'The password cannot be empty';
@@ -150,31 +113,121 @@ class _SignUpState extends State<SignUp> {
                 },
               ),
               const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                controller: confirmC,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    hintText: ('Confirm Password'),
+                    filled: true,
+                    fillColor: Colors.grey.shade200
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'The password cannot be empty';
+                  } else if (value != passwordC.text) {
+                    return "The password doesn't match, re-enter it";
+                  }
+                },
+              ),
+              const SizedBox(
                 height: 50,
               ),
-              Center(
-                child: SizedBox(
-                  width: 170,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.brown),
-                    onPressed: () async {
-                      await signup(
-                        email: emailC.text,
-                        password: passwordC.text,
-                        phone: phoneC.text,
-                        name: nameC.text,
-                      );
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: BlocConsumer<AppCubitA, AppStateA>(
+                  listener: (context, state) {
+                    if (state is SignUpErrorState)
+                      {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text(state.error),
+                        ),
+                        );
+                      } else if (state is SignUpDoneState)
+                        {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context){
+                                return const HomeLayout();
+                              },
+                              ),
+                          );
+                        }
+                  },
+                  builder: (context, state) {
+                    return ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF300046)),
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      await context.read<AppCubitA>().signup(
+                          email: emailC.text,
+                          password: passwordC.text,
+                          phone: phoneC.text,
+                          name: nameC.text, );
+                      }
                     },
-                    child: const Text('Sign up',
-                    style: TextStyle(fontSize: 20)),
-                  ),
+                    child: state is SignUpLoadingState ?
+                        const Center(
+                        child: CircularProgressIndicator(color: Colors.white),)
+                        : const Text('Register',
+                        style: TextStyle(fontSize: 20)),
+                    );
+                  },
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
+              const SizedBox(
+                    height: 30,
+                    ),
+              Row(
+                children: [
+                  Expanded(child: Divider(color: Colors.grey, thickness: 2,)),
+                  Text('Or Login with',
+                    style: TextStyle(fontSize: 19, color: Colors.grey.shade900),),
+                  Expanded(child: Divider(color: Colors.grey, thickness: 2,))
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 40,
+                    width: 90,
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade400),
+                        image: DecorationImage(image: AssetImage('assets/images/facebook2.jpg'))
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    width: 90,
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade400),
+                        image: DecorationImage(image: AssetImage('assets/images/google3.png'))
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    width: 90,
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade400),
+                        image: DecorationImage(image: AssetImage('assets/images/apple.jpg'))
+                    ),
+                  ),
+                ],
+              ),
+         ]),
       ),
+    ),
     );
   }
 }
