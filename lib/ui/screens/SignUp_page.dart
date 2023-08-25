@@ -30,12 +30,32 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 60,
+        leading: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(10),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new_outlined,
+                  color: Colors.black,
+              size: 20,),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Form(
           key: formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Welcome back! Glad to see you again!',
@@ -132,7 +152,7 @@ class _SignUpState extends State<SignUp> {
                 },
               ),
               const SizedBox(
-                height: 50,
+                height: 30,
               ),
               SizedBox(
                 width: double.infinity,

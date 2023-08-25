@@ -8,37 +8,46 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: 220,
-          width: double.infinity,
-          margin: EdgeInsets.symmetric(horizontal: 35,),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade400,
-            borderRadius: BorderRadius.circular(30)
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 150,
+            width: 330,
+            margin: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.zero, top: Radius.circular(30)),
+              image: DecorationImage(image: NetworkImage(product.thumbnail),
+                  fit: BoxFit.fill),
+            ),
           ),
-        ),
-        Container(
-          height: 150,
-          width: double.infinity,
-          margin: EdgeInsets.symmetric(horizontal: 35,),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(bottom: Radius.zero, top: Radius.circular(30)),
-            image: DecorationImage(image: NetworkImage(product.thumbnail),
-            fit: BoxFit.fill),
+          Stack(
+            children: [
+              Container(
+                height: 70,
+                width: 330,
+                margin: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(30), top: Radius.zero),
+                ),
+              ),
+              Positioned(
+                //top: 160,
+                bottom: 7,
+                left: 70,
+                child: SizedBox(
+                    height: 55,
+                    width: 250,
+                    child: Text(product.title, style:
+                    TextStyle(fontSize: 15),)),
+              ),
+            ],
           ),
-        ),
-        Positioned(
-          top: 160,
-          left: 70,
-          child: SizedBox(
-              height: 55,
-              width: 250,
-              child: Text(product.title, style:
-                TextStyle(fontSize: 15),)),
-        )
-      ],
+        ],
+      ),
     );
   }
 }
