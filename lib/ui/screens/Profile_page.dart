@@ -48,6 +48,7 @@ class Profile extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 50,),
+                  /////
 
                   Container(
                     width: double.infinity,
